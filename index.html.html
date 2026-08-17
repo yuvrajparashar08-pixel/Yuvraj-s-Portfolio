@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Yuvraj Parashar — MBA Candidate | HR &amp; Digital Marketing Strategist</title>
+<meta name="description" content="Yuvraj Parashar — MBA Candidate specializing in HR &amp; Digital Marketing. Talent coordination, full-cycle recruiting, and data-driven workforce management." />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<!-- VanillaTilt -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          bg: '#07060b',
+          panel: '#0d0c14',
+          line: 'rgba(232,230,245,0.09)',
+          ink: '#eae7f5',
+          dim: '#8d89a3',
+          accent: '#8b5cf6',
+          accent2: '#c4b5fd',
+          live: '#c6ff5e',
+        },
+        fontFamily: {
+          display: ['"Bricolage Grotesque"', 'sans-serif'],
+          body: ['Inter', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'monospace'],
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  :root{ color-scheme: dark; }
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    background: #07060b;
+    color: #eae7f5;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+  @media (max-width: 860px){
+    body{ cursor: auto; }
+    .cursor-dot, .cursor-ring{ display:none !important; }
+  }
+
+  /* ---------- custom cursor ---------- */
+  .cursor-dot, .cursor-ring{
+    position: fixed;
+    top:0; left:0;
+    pointer-events:none;
+    z-index: 9999;
+    border-radius: 999px;
+    transform: translate(-50%,-50%);
+    will-change: transform;
+  }
+  .cursor-dot{
+    width: 6px; height: 6px;
+    background: #c6ff5e;
+  }
+  .cursor-ring{
+    width: 34px; height: 34px;
+    border: 1px solid rgba(232,230,245,0.5);
+    transition: width .25s ease, height .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .cursor-ring.grow{
+    width: 64px; height: 64px;
+    border-color: #8b5cf6;
+    background: rgba(139,92,246,0.08);
+  }
+
+  /* ---------- misc ---------- */
+  ::selection{ background: #8b5cf6; color: #07060b; }
+
+  .glass{
+    background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+    border: 1px solid rgba(232,230,245,0.09);
+    backdrop-filter: blur(18px);
+  }
+
+  .noise{
+    position:absolute; inset:0;
+    pointer-events:none;
+    opacity:.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .grid-fade{
+    background-image:
+      linear-gradient(rgba(232,230,245,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,230,245,0.045) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, #000 40%, transparent 100%);
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, #000 40%, transparent 100%);
+  }
+
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:.18em;
+    font-size: .7rem;
+  }
+
+  .ticker-track{
+    display:flex;
+    width: max-content;
+    animation: ticker 26s linear infinite;
+  }
+  @keyframes ticker{
+    from{ transform: translateX(0); }
+    to{ transform: translateX(-50%); }
+  }
+
+  .magnetic{ will-change: transform; }
+
+  .tag-float{
+    animation: floaty 7s ease-in-out infinite;
+  }
+  @keyframes floaty{
+    0%,100%{ transform: translateY(0px); }
+    50%{ transform: translateY(-9px); }
+  }
+
+  .bar-fill{
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+
+  .card-glow{
+    position:relative;
+  }
+  .card-glow::before{
+    content:'';
+    position:absolute; inset:-1px;
+    border-radius: inherit;
+    padding:1px;
+    background: linear-gradient(135deg, rgba(139,92,246,.55), transparent 40%, transparent 60%, rgba(198,255,94,.35));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity:0;
+    transition: opacity .35s ease;
+    pointer-events:none;
+  }
+  .card-glow:hover::before{ opacity:1; }
+
+  .section-num{
+    font-family:'JetBrains Mono', monospace;
+    color: rgba(232,230,245,0.28);
+  }
+
+  ::-webkit-scrollbar{ width:9px; }
+  ::-webkit-scrollbar-track{ background:#07060b; }
+  ::-webkit-scrollbar-thumb{ background:#232132; border-radius:8px; }
+  ::-webkit-scrollbar-thumb:hover{ background:#8b5cf6; }
+
+  .status-dot{
+    box-shadow: 0 0 0 0 rgba(198,255,94,.6);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%{ box-shadow: 0 0 0 0 rgba(198,255,94,.55); }
+    70%{ box-shadow: 0 0 0 8px rgba(198,255,94,0); }
+    100%{ box-shadow: 0 0 0 0 rgba(198,255,94,0); }
+  }
+
+  #cv-print{ display:none; }
+  @media print{
+    body *{ visibility:hidden; cursor:auto; }
+    #cv-print, #cv-print *{ visibility:visible; }
+    #cv-print{ display:block; position:absolute; top:0; left:0; width:100%; color:#111; background:#fff; padding:36px; font-family: Inter, sans-serif;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+
+  .reveal{ opacity:0; }
+</style>
+</head>
+<body class="bg-bg antialiased">
+
+<!-- custom cursor -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- background grid -->
+<div class="fixed inset-0 grid-fade opacity-60 pointer-events-none z-0"></div>
+<div class="noise fixed z-0"></div>
+
+<!-- NAV -->
+<header class="fixed top-0 inset-x-0 z-50">
+  <div class="mx-auto max-w-7xl px-6 md:px-10">
+    <nav class="mt-4 flex items-center justify-between glass rounded-2xl px-5 py-3">
+      <a href="#top" class="font-display font-semibold tracking-tight text-lg" data-hover>YP<span class="text-accent">.</span></a>
+      <div class="hidden md:flex items-center gap-8 eyebrow uppercase text-dim">
+        <a href="#about" class="hover:text-ink transition-colors" data-hover>About</a>
+        <a href="#experience" class="hover:text-ink transition-colors" data-hover>Experience</a>
+        <a href="#projects" class="hover:text-ink transition-colors" data-hover>Ventures</a>
+        <a href="#skills" class="hover:text-ink transition-colors" data-hover>Skills</a>
+        <a href="#education" class="hover:text-ink transition-colors" data-hover>Education</a>
+      </div>
+      <a href="#contact" data-hover class="magnetic text-xs font-mono uppercase tracking-widest border border-line rounded-full px-4 py-2 hover:border-accent hover:text-accent transition-colors">
+        Contact
+      </a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="top" class="relative min-h-[100svh] flex items-center pt-28 pb-16 overflow-hidden">
+  <canvas id="heroCanvas" class="absolute inset-0 w-full h-full z-0"></canvas>
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-bg/40 to-bg z-[1] pointer-events-none"></div>
+
+  <div class="relative z-10 mx-auto max-w-7xl px-6 md:px-10 w-full">
+    <div class="flex items-center gap-2 mb-6 eyebrow uppercase text-dim" id="heroTag">
+      <span class="w-2 h-2 rounded-full bg-live status-dot"></span>
+      Open to Talent Acquisition &amp; HR roles — Bhopal / Remote
+    </div>
+
+    <h1 class="font-display font-semibold leading-[0.95] tracking-tight text-[13vw] md:text-[6.4vw] overflow-hidden">
+      <span class="block overflow-hidden"><span class="hero-line inline-block">Yuvraj</span></span>
+      <span class="block overflow-hidden"><span class="hero-line inline-block text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent2">Parashar</span></span>
+    </h1>
+
+    <div class="mt-6 md:mt-8 flex flex-col md:flex-row md:items-end justify-between gap-8">
+      <p class="font-mono text-lg md:text-2xl text-dim max-w-xl">
+        <span id="typed"></span><span class="border-r-2 border-accent animate-pulse ml-0.5"></span>
+      </p>
+
+      <div class="flex flex-wrap gap-4">
+        <button id="downloadCvBtn" data-hover class="magnetic group relative inline-flex items-center gap-2 rounded-full bg-ink text-bg font-semibold px-6 py-3.5 text-sm overflow-hidden">
+          <span class="relative z-10">Download CV</span>
+          <svg class="relative z-10 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v13m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
+        </button>
+        <a href="#contact" data-hover class="magnetic inline-flex items-center gap-2 rounded-full border border-line px-6 py-3.5 text-sm hover:border-accent hover:text-accent transition-colors">
+          Let's talk
+        </a>
+      </div>
+    </div>
+
+    <!-- metrics ticker -->
+    <div class="mt-14 md:mt-20 border-y border-line py-3 overflow-hidden">
+      <div class="ticker-track font-mono text-sm text-dim">
+        <div class="flex items-center gap-10 pr-10">
+          <span>200–400 <span class="text-live">▲</span> talent pool managed</span>
+          <span class="text-line">/</span>
+          <span>2+ yrs <span class="text-accent2">●</span> HR &amp; coordination experience</span>
+          <span class="text-line">/</span>
+          <span>₹11,000 <span class="text-live">▲</span> revenue generated — Retail &amp; Render</span>
+          <span class="text-line">/</span>
+          <span>7.75 CGPA <span class="text-accent2">●</span> MBA, LPU</span>
+          <span class="text-line">/</span>
+          <span>3 <span class="text-live">▲</span> professional certifications</span>
+          <span class="text-line">/</span>
+        </div>
+        <div class="flex items-center gap-10 pr-10" aria-hidden="true">
+          <span>200–400 <span class="text-live">▲</span> talent pool managed</span>
+          <span class="text-line">/</span>
+          <span>2+ yrs <span class="text-accent2">●</span> HR &amp; coordination experience</span>
+          <span class="text-line">/</span>
+          <span>₹11,000 <span class="text-live">▲</span> revenue generated — Retail &amp; Render</span>
+          <span class="text-line">/</span>
+          <span>7.75 CGPA <span class="text-accent2">●</span> MBA, LPU</span>
+          <span class="text-line">/</span>
+          <span>3 <span class="text-live">▲</span> professional certifications</span>
+          <span class="text-line">/</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-dim">
+    <span class="eyebrow uppercase">Scroll</span>
+    <div class="w-px h-10 bg-gradient-to-b from-accent to-transparent"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="relative py-28 md:py-36 border-t border-line">
+  <div class="mx-auto max-w-7xl px-6 md:px-10">
+    <div class="grid md:grid-cols-12 gap-10">
+      <div class="md:col-span-3 flex md:flex-col items-start gap-3">
+        <span class="section-num text-sm">01</span>
+        <h2 class="font-display text-2xl font-semibold reveal-up">Profile</h2>
+      </div>
+      <div class="md:col-span-9">
+        <p class="text-2xl md:text-4xl font-display font-medium leading-tight reveal-up">
+          MBA candidate building a career at the intersection of people, data, and growth —
+          <span class="text-dim">2+ years turning recruitment chaos into structured, engaging talent pipelines.</span>
+        </p>
+        <p class="mt-8 text-dim leading-relaxed max-w-2xl reveal-up">
+          I specialize in talent coordination, full-cycle recruiting, and workforce management across
+          production and corporate environments — with a proven track record of managing large talent
+          pools (200–400 people) and driving candidate engagement. I pair that operational strength with
+          data-driven reporting and strong interpersonal skills to keep HR operations running smoothly,
+          and I'm currently sharpening that edge with an MBA in HR &amp; Digital Marketing at LPU.
+        </p>
+
+        <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div class="reveal-up">
+            <div class="font-display text-3xl md:text-4xl text-accent2">200–400</div>
+            <div class="text-xs font-mono text-dim mt-1 uppercase tracking-wide">Talent pool managed</div>
+          </div>
+          <div class="reveal-up">
+            <div class="font-display text-3xl md:text-4xl text-accent2">2+ yrs</div>
+            <div class="text-xs font-mono text-dim mt-1 uppercase tracking-wide">HR &amp; coordination</div>
+          </div>
+          <div class="reveal-up">
+            <div class="font-display text-3xl md:text-4xl text-accent2">7.75</div>
+            <div class="text-xs font-mono text-dim mt-1 uppercase tracking-wide">CGPA — MBA, LPU</div>
+          </div>
+          <div class="reveal-up">
+            <div class="font-display text-3xl md:text-4xl text-accent2">3</div>
+            <div class="text-xs font-mono text-dim mt-1 uppercase tracking-wide">Certifications</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="relative py-28 md:py-36 border-t border-line">
+  <div class="mx-auto max-w-7xl px-6 md:px-10">
+    <div class="flex items-end justify-between mb-14 gap-4 flex-wrap">
+      <div class="flex items-center gap-3">
+        <span class="section-num text-sm">02</span>
+        <h2 class="font-display text-2xl font-semibold">Experience</h2>
+      </div>
+      <p class="text-dim text-sm max-w-sm">From set logistics for 400 junior artists to full-cycle talent acquisition — hands-on HR across two very different worlds.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="tilt-card card-glow glass rounded-3xl p-8 relative" data-tilt data-tilt-max="8" data-tilt-glare data-tilt-max-glare="15">
+        <div class="flex items-start justify-between">
+          <div>
+            <h3 class="font-display text-xl font-semibold">Production Coordinator</h3>
+            <p class="text-accent2 text-sm mt-1">Junior Artist Management · Zeal Z Productions</p>
+          </div>
+          <span class="font-mono text-xs text-dim border border-line rounded-full px-3 py-1 whitespace-nowrap">Mar 2020 – Apr 2022</span>
+        </div>
+        <p class="text-dim mt-6 leading-relaxed">
+          Managed large talent pools of 200–400 junior artists, owning end-to-end coordination, on-set
+          logistics, and conflict resolution inside fast-paced production environments.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-2">
+          <span class="text-xs font-mono border border-line rounded-full px-3 py-1 text-dim">Talent Coordination</span>
+          <span class="text-xs font-mono border border-line rounded-full px-3 py-1 text-dim">Logistics</span>
+          <span class="text-xs font-mono border border-line rounded-full px-3 py-1 text-dim">Conflict Resolution</span>
+        </div>
+      </div>
+
+      <div class="tilt-card card-glow glass rounded-3xl p-8 relative" data-tilt data-tilt-max="8" data-tilt-glare data-tilt-max-glare="15">
+        <div class="flex items-start justify-between">
+          <div>
+            <h3 class="font-display text-xl font-semibold">HR Intern</h3>
+            <p class="text-accent2 text-sm mt-1">Talent Acquisition · Zyntiq</p>
+          </div>
+          <span class="font-mono text-xs text-dim border border-line rounded-full px-3 py-1 whitespace-nowrap">Jun 2026 – Aug 2026</span>
+        </div>
+        <p class="text-dim mt-6 leading-relaxed">
+          Executed full-cycle talent acquisition — screening resumes and coordinating interview scheduling
+          to improve candidate engagement and pipeline visibility.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-2">
+          <span class="text-xs font-mono border border-line rounded-full px-3 py-1 text-dim">Full-Cycle Recruiting</span>
+          <span class="text-xs font-mono border border-line rounded-full px-3 py-1 text-dim">Resume Screening</span>
+          <span class="text-xs font-mono border border-line rounded-full px-3 py-1 text-dim">Interview Scheduling</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS / VENTURES -->
+<section id="projects" class="relative py-28 md:py-36 border-t border-line">
+  <div class="mx-auto max-w-7xl px-6 md:px-10">
+    <div class="flex items-end justify-between mb-14 gap-4 flex-wrap">
+      <div class="flex items-center gap-3">
+        <span class="section-num text-sm">03</span>
+        <h2 class="font-display text-2xl font-semibold">Ventures &amp; Projects</h2>
+      </div>
+      <p class="text-dim text-sm max-w-sm">Independent work spanning digital marketing, e-commerce, and freelance document specialization.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="tilt-card card-glow glass rounded-3xl p-8 relative overflow-hidden" data-tilt data-tilt-max="10" data-tilt-glare data-tilt-max-glare="20">
+        <div class="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-accent/20 blur-3xl pointer-events-none"></div>
+        <div class="relative flex items-start justify-between">
+          <div>
+            <h3 class="font-display text-xl font-semibold">Retail &amp; Render</h3>
+            <p class="text-accent2 text-sm mt-1">E-commerce &amp; Digital Marketing</p>
+          </div>
+          <span class="font-mono text-xs text-dim border border-line rounded-full px-3 py-1 whitespace-nowrap">Feb 2026 – Jul 2026</span>
+        </div>
+        <p class="text-dim mt-6 leading-relaxed relative">
+          Generated leads and managed customer engagement through Instagram, Facebook, and LinkedIn
+          campaigns, achieving <span class="text-live font-mono">₹11,000</span> in revenue.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-2 relative">
+          <span class="text-xs font-mono border border-line rounded-full px-3 py-1 text-dim">Meta Ads</span>
+          <span class="text-xs font-mono border border-line rounded-full px-3 py-1 text-dim">Lead Gen</span>
+          <span class="text-xs font-mono border border-line rounded-full px-3 py-1 text-dim">Social Strategy</span>
+        </div>
+      </div>
+
+      <div class="tilt-card card-glow glass rounded-3xl p-8 relative overflow-hidden" data-tilt data-tilt-max="10" data-tilt-glare data-tilt-max-glare="20">
+        <div class="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-live/10 blur-3xl pointer-events-none"></div>
+        <div class="relative flex items-start justify-between">
+          <div>
+            <h3 class="font-display text-xl font-semibold">Freelance Document Specialist</h3>
+            <p class="text-accent2 text-sm mt-1">Independent Practice</p>
+          </div>
+          <span class="font-mono text-xs text-dim border border-line rounded-full px-3 py-1 whitespace-nowrap">Aug 2025 – Jan 2026</span>
+        </div>
+        <p class="text-dim mt-6 leading-relaxed relative">
+          Managed multiple concurrent projects converting and formatting academic content, working to
+          strict accuracy and fidelity requirements under deadline pressure.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-2 relative">
+          <span class="text-xs font-mono border border-line rounded-full px-3 py-1 text-dim">Document Formatting</span>
+          <span class="text-xs font-mono border border-line rounded-full px-3 py-1 text-dim">Client Management</span>
+          <span class="text-xs font-mono border border-line rounded-full px-3 py-1 text-dim">Accuracy at Scale</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="relative py-28 md:py-36 border-t border-line overflow-hidden">
+  <div class="mx-auto max-w-7xl px-6 md:px-10">
+    <div class="flex items-center gap-3 mb-14">
+      <span class="section-num text-sm">04</span>
+      <h2 class="font-display text-2xl font-semibold">Skills</h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-16">
+      <div class="space-y-7">
+        <div class="skill-row">
+          <div class="flex justify-between text-sm mb-2"><span>MS Excel &amp; Google Sheets</span><span class="font-mono text-dim">92%</span></div>
+          <div class="h-1.5 rounded-full bg-white/5 overflow-hidden"><div class="bar-fill h-full rounded-full bg-gradient-to-r from-accent to-accent2" data-w="92"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="flex justify-between text-sm mb-2"><span>Full-Cycle Recruiting</span><span class="font-mono text-dim">90%</span></div>
+          <div class="h-1.5 rounded-full bg-white/5 overflow-hidden"><div class="bar-fill h-full rounded-full bg-gradient-to-r from-accent to-accent2" data-w="90"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="flex justify-between text-sm mb-2"><span>LinkedIn Sourcing</span><span class="font-mono text-dim">88%</span></div>
+          <div class="h-1.5 rounded-full bg-white/5 overflow-hidden"><div class="bar-fill h-full rounded-full bg-gradient-to-r from-accent to-accent2" data-w="88"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="flex justify-between text-sm mb-2"><span>Canva &amp; Visual Comms</span><span class="font-mono text-dim">85%</span></div>
+          <div class="h-1.5 rounded-full bg-white/5 overflow-hidden"><div class="bar-fill h-full rounded-full bg-gradient-to-r from-accent to-accent2" data-w="85"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="flex justify-between text-sm mb-2"><span>Google Forms &amp; Data Capture</span><span class="font-mono text-dim">87%</span></div>
+          <div class="h-1.5 rounded-full bg-white/5 overflow-hidden"><div class="bar-fill h-full rounded-full bg-gradient-to-r from-accent to-accent2" data-w="87"></div></div>
+        </div>
+      </div>
+
+      <div class="relative flex flex-wrap content-start gap-4">
+        <span class="tag-float glass rounded-full px-5 py-2.5 text-sm" style="animation-delay:0s">Communication</span>
+        <span class="tag-float glass rounded-full px-5 py-2.5 text-sm" style="animation-delay:.4s">Coordination</span>
+        <span class="tag-float glass rounded-full px-5 py-2.5 text-sm" style="animation-delay:.8s">Multitasking</span>
+        <span class="tag-float glass rounded-full px-5 py-2.5 text-sm" style="animation-delay:1.2s">Adaptability</span>
+        <span class="tag-float glass rounded-full px-5 py-2.5 text-sm border-accent/40" style="animation-delay:1.6s">Workforce Planning</span>
+        <span class="tag-float glass rounded-full px-5 py-2.5 text-sm" style="animation-delay:2s">Candidate Engagement</span>
+        <span class="tag-float glass rounded-full px-5 py-2.5 text-sm" style="animation-delay:2.4s">Data-Driven Reporting</span>
+        <span class="tag-float glass rounded-full px-5 py-2.5 text-sm" style="animation-delay:2.8s">Stakeholder Management</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION + CERTS -->
+<section id="education" class="relative py-28 md:py-36 border-t border-line">
+  <div class="mx-auto max-w-7xl px-6 md:px-10">
+    <div class="grid md:grid-cols-2 gap-16">
+      <div>
+        <div class="flex items-center gap-3 mb-10">
+          <span class="section-num text-sm">05</span>
+          <h2 class="font-display text-2xl font-semibold">Education</h2>
+        </div>
+        <div class="space-y-10 border-l border-line pl-8">
+          <div class="relative reveal-up">
+            <span class="absolute -left-[35px] top-1 w-3 h-3 rounded-full bg-accent"></span>
+            <span class="font-mono text-xs text-dim">Aug 2025 – May 2027</span>
+            <h3 class="font-display text-lg font-semibold mt-1">Master of Business Administration</h3>
+            <p class="text-dim text-sm mt-1">HR &amp; Digital Marketing · Lovely Professional University</p>
+            <p class="text-accent2 text-sm mt-1 font-mono">CGPA 7.75</p>
+          </div>
+          <div class="relative reveal-up">
+            <span class="absolute -left-[35px] top-1 w-3 h-3 rounded-full bg-white/20"></span>
+            <span class="font-mono text-xs text-dim">Aug 2022 – May 2025</span>
+            <h3 class="font-display text-lg font-semibold mt-1">Bachelor of Commerce</h3>
+            <p class="text-dim text-sm mt-1">Bhopal School of Social Sciences</p>
+            <p class="text-accent2 text-sm mt-1 font-mono">CGPA 6.3</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="flex items-center gap-3 mb-10">
+          <span class="section-num text-sm">06</span>
+          <h2 class="font-display text-2xl font-semibold">Certifications</h2>
+        </div>
+        <div class="space-y-4">
+          <div class="tilt-card glass rounded-2xl p-5 flex items-center justify-between" data-tilt data-tilt-max="5">
+            <div>
+              <h3 class="font-medium">AI-Powered Shopping Ads Certification</h3>
+              <p class="text-dim text-sm">Google</p>
+            </div>
+            <span class="font-mono text-xs text-dim">Apr 2026</span>
+          </div>
+          <div class="tilt-card glass rounded-2xl p-5 flex items-center justify-between" data-tilt data-tilt-max="5">
+            <div>
+              <h3 class="font-medium">NISM Certification</h3>
+              <p class="text-dim text-sm">Financial Markets &amp; Regulations</p>
+            </div>
+            <span class="font-mono text-xs text-dim">Sep 2025</span>
+          </div>
+          <div class="tilt-card glass rounded-2xl p-5 flex items-center justify-between" data-tilt data-tilt-max="5">
+            <div>
+              <h3 class="font-medium">HIPAA Compliance Training</h3>
+              <p class="text-dim text-sm">Healthcare Data Compliance</p>
+            </div>
+            <span class="font-mono text-xs text-dim">Jan 2025</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="relative py-28 md:py-40 border-t border-line overflow-hidden">
+  <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+    <div class="w-[60vw] h-[60vw] max-w-2xl max-h-2xl rounded-full bg-accent/10 blur-[120px]"></div>
+  </div>
+  <div class="relative mx-auto max-w-7xl px-6 md:px-10 text-center">
+    <span class="eyebrow uppercase text-dim">06 / Get in touch</span>
+    <h2 class="font-display font-semibold text-[11vw] md:text-6xl mt-6 leading-none">
+      Let's build something<br class="hidden md:block"> <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent2">worth hiring for.</span>
+    </h2>
+    <p class="text-dim mt-8 max-w-md mx-auto">Open to HR &amp; Talent Acquisition roles, internships, and collaborations. Based in Bhopal, Madhya Pradesh — reachable anywhere.</p>
+
+    <div class="mt-12 flex flex-col md:flex-row items-center justify-center gap-4">
+      <a href="mailto:yuvrajparashar08@gmail.com" data-hover class="magnetic inline-flex items-center gap-2 rounded-full bg-ink text-bg font-semibold px-7 py-4 text-sm">
+        yuvrajparashar08@gmail.com
+      </a>
+      <a href="tel:+917067656386" data-hover class="magnetic inline-flex items-center gap-2 rounded-full border border-line px-7 py-4 text-sm hover:border-accent hover:text-accent transition-colors">
+        +91 70676 56386
+      </a>
+      <a href="https://linkedin.com/in/yuvrajparashar08" target="_blank" rel="noopener" data-hover class="magnetic inline-flex items-center gap-2 rounded-full border border-line px-7 py-4 text-sm hover:border-accent hover:text-accent transition-colors">
+        LinkedIn ↗
+      </a>
+    </div>
+  </div>
+
+  <footer class="relative mx-auto max-w-7xl px-6 md:px-10 mt-24 pt-8 border-t border-line flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-mono text-dim">
+    <span>© 2026 Yuvraj Parashar</span>
+    <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-live status-dot"></span> Available for opportunities</span>
+  </footer>
+</section>
+
+<!-- Hidden print-friendly CV -->
+<div id="cv-print">
+  <h1 style="font-size:26px;font-weight:700;margin-bottom:2px;">Yuvraj Parashar</h1>
+  <p style="margin:0 0 14px;">MBA Candidate | HR &amp; Digital Marketing Strategist</p>
+  <p style="margin:0 0 18px;font-size:13px;">yuvrajparashar08@gmail.com · +91-7067656386 · linkedin.com/in/yuvrajparashar08</p>
+
+  <h2 style="font-size:15px;border-bottom:1px solid #ccc;padding-bottom:4px;">Professional Summary</h2>
+  <p style="font-size:13px;line-height:1.6;">2+ years of hands-on experience in talent coordination, full-cycle recruiting, and workforce management across production and corporate environments. Proven ability to manage large talent pools (200–400) and drive candidate engagement. Adept at combining data-driven reporting with strong interpersonal skills to support HR operations.</p>
+
+  <h2 style="font-size:15px;border-bottom:1px solid #ccc;padding-bottom:4px;margin-top:16px;">Experience</h2>
+  <p style="font-size:13px;margin:10px 0 0;"><strong>Production Coordinator — Junior Artist Management</strong>, Zeal Z Productions (Mar 2020 – Apr 2022)</p>
+  <p style="font-size:13px;margin:2px 0 0;">Managed large talent pools (200–400); end-to-end coordination, logistics, and conflict resolution.</p>
+  <p style="font-size:13px;margin:10px 0 0;"><strong>HR Intern — Talent Acquisition</strong>, Zyntiq (Jun 2026 – Aug 2026)</p>
+  <p style="font-size:13px;margin:2px 0 0;">Full-cycle talent acquisition; resume screening; interview scheduling to improve engagement and pipeline visibility.</p>
+
+  <h2 style="font-size:15px;border-bottom:1px solid #ccc;padding-bottom:4px;margin-top:16px;">Ventures / Projects</h2>
+  <p style="font-size:13px;margin:10px 0 0;"><strong>Retail &amp; Render</strong> — E-commerce &amp; Digital Marketing (Feb 2026 – Jul 2026): Lead generation via Instagram/Facebook/LinkedIn campaigns; ₹11,000 revenue generated.</p>
+  <p style="font-size:13px;margin:10px 0 0;"><strong>Freelance Document Specialist</strong> (Aug 2025 – Jan 2026): Converted and formatted academic content across multiple concurrent projects to strict accuracy standards.</p>
+
+  <h2 style="font-size:15px;border-bottom:1px solid #ccc;padding-bottom:4px;margin-top:16px;">Education</h2>
+  <p style="font-size:13px;margin:10px 0 0;"><strong>MBA — HR &amp; Digital Marketing</strong>, Lovely Professional University (Aug 2025 – May 2027), CGPA 7.75</p>
+  <p style="font-size:13px;margin:6px 0 0;"><strong>B.Com</strong>, Bhopal School of Social Sciences (Aug 2022 – May 2025), CGPA 6.3</p>
+
+  <h2 style="font-size:15px;border-bottom:1px solid #ccc;padding-bottom:4px;margin-top:16px;">Certifications</h2>
+  <p style="font-size:13px;margin:10px 0 0;">AI-Powered Shopping Ads Certification — Google (Apr 2026)</p>
+  <p style="font-size:13px;margin:4px 0 0;">NISM Certification, Financial Markets &amp; Regulations (Sep 2025)</p>
+  <p style="font-size:13px;margin:4px 0 0;">HIPAA Compliance Training (Jan 2025)</p>
+
+  <h2 style="font-size:15px;border-bottom:1px solid #ccc;padding-bottom:4px;margin-top:16px;">Core Skills</h2>
+  <p style="font-size:13px;">MS Excel &amp; Google Sheets, LinkedIn, Canva, Google Forms, Communication, Coordination, Multitasking, Adaptability</p>
+</div>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ============ Custom Cursor ============ */
+(function(){
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  if (window.matchMedia('(max-width: 860px)').matches) return;
+
+  let mx=0, my=0, rx=0, ry=0;
+  window.addEventListener('mousemove', (e)=>{
+    mx = e.clientX; my = e.clientY;
+    dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
+  });
+  gsap.ticker.add(()=>{
+    rx += (mx-rx) * 0.18;
+    ry += (my-ry) * 0.18;
+    ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`;
+  });
+  document.querySelectorAll('[data-hover], a, button, .tilt-card').forEach(el=>{
+    el.addEventListener('mouseenter', ()=> ring.classList.add('grow'));
+    el.addEventListener('mouseleave', ()=> ring.classList.remove('grow'));
+  });
+})();
+
+/* ============ Magnetic buttons ============ */
+document.querySelectorAll('.magnetic').forEach(btn=>{
+  btn.addEventListener('mousemove', (e)=>{
+    const r = btn.getBoundingClientRect();
+    const x = e.clientX - r.left - r.width/2;
+    const y = e.clientY - r.top - r.height/2;
+    gsap.to(btn, { x: x*0.35, y: y*0.5, duration:0.4, ease:'power3.out' });
+  });
+  btn.addEventListener('mouseleave', ()=>{
+    gsap.to(btn, { x:0, y:0, duration:0.6, ease:'elastic.out(1,0.4)' });
+  });
+});
+
+/* ============ VanillaTilt ============ */
+if (window.VanillaTilt) {
+  VanillaTilt.init(document.querySelectorAll('.tilt-card'), {
+    max: 8, speed: 400, glare: true, 'max-glare': 0.2, scale: 1.02, perspective: 900,
+  });
+}
+
+/* ============ Typed rotator ============ */
+(function(){
+  const roles = [
+    'MBA Candidate — HR & Digital Marketing',
+    'Talent Acquisition Specialist',
+    'Workforce & Coordination Strategist',
+    'Data-Driven HR Operator'
+  ];
+  const el = document.getElementById('typed');
+  let ri=0, ci=0, deleting=false;
+  function tick(){
+    const word = roles[ri];
+    el.textContent = deleting ? word.slice(0, ci--) : word.slice(0, ci++);
+    let delay = deleting ? 28 : 45;
+    if (!deleting && ci === word.length+1){ deleting = true; delay = 1400; }
+    else if (deleting && ci === 0){ deleting = false; ri = (ri+1)%roles.length; delay = 300; }
+    setTimeout(tick, delay);
+  }
+  tick();
+})();
+
+/* ============ Hero line reveal + entrance timeline ============ */
+window.addEventListener('DOMContentLoaded', ()=>{
+  gsap.set('.hero-line', { yPercent: 120 });
+  const tl = gsap.timeline({ defaults:{ ease:'power4.out' } });
+  tl.to('.hero-line', { yPercent:0, duration:1.1, stagger:0.12 })
+    .from('#heroTag', { opacity:0, y:-10, duration:0.6 }, '-=0.7')
+    .from('#downloadCvBtn, #downloadCvBtn ~ a', { opacity:0, y:16, duration:0.7, stagger:0.1 }, '-=0.5')
+    .from('.ticker-track', { opacity:0, duration:0.8 }, '-=0.3');
+});
+
+/* ============ Scroll reveals ============ */
+gsap.utils.toArray('.reveal-up, h2.font-display, .tilt-card').forEach((el)=>{
+  gsap.from(el, {
+    opacity: 0,
+    y: 40,
+    duration: 0.9,
+    ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none reverse' }
+  });
+});
+
+gsap.utils.toArray('.bar-fill').forEach(bar=>{
+  gsap.to(bar, {
+    scaleX: bar.dataset.w/100,
+    duration: 1.4,
+    ease: 'power3.out',
+    scrollTrigger: { trigger: bar, start: 'top 90%' }
+  });
+});
+
+/* subtle section number parallax */
+gsap.utils.toArray('.section-num').forEach(n=>{
+  gsap.from(n, { opacity:0, x:-16, duration:0.8, scrollTrigger:{ trigger:n, start:'top 90%' } });
+});
+
+/* ============ Interactive particle / constellation hero background ============ */
+(function(){
+  const canvas = document.getElementById('heroCanvas');
+  const ctx = canvas.getContext('2d');
+  let w, h, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  let particles = [];
+  const mouse = { x: null, y: null, r: 140 };
+
+  function resize(){
+    w = canvas.parentElement.offsetWidth;
+    h = canvas.parentElement.offsetHeight;
+    canvas.width = w*dpr; canvas.height = h*dpr;
+    canvas.style.width = w+'px'; canvas.style.height = h+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    initParticles();
+  }
+
+  function initParticles(){
+    const count = Math.min(90, Math.floor((w*h)/16000));
+    particles = Array.from({length: count}, ()=>({
+      x: Math.random()*w,
+      y: Math.random()*h,
+      vx: (Math.random()-0.5)*0.35,
+      vy: (Math.random()-0.5)*0.35,
+      r: Math.random()*1.6+0.6,
+    }));
+  }
+
+  function step(){
+    ctx.clearRect(0,0,w,h);
+    for(let i=0;i<particles.length;i++){
+      const p = particles[i];
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > w) p.vx *= -1;
+      if (p.y < 0 || p.y > h) p.vy *= -1;
+
+      if (mouse.x !== null){
+        const dx = p.x - mouse.x, dy = p.y - mouse.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < mouse.r){
+          const force = (mouse.r - dist)/mouse.r;
+          p.x += (dx/dist) * force * 1.6;
+          p.y += (dy/dist) * force * 1.6;
+        }
+      }
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(196,181,253,0.55)';
+      ctx.fill();
+
+      for(let j=i+1;j<particles.length;j++){
+        const q = particles[j];
+        const dx = p.x-q.x, dy = p.y-q.y;
+        const dist = Math.sqrt(dx*dx+dy*dy);
+        if (dist < 130){
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.strokeStyle = `rgba(139,92,246,${0.14*(1-dist/130)})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
+  window.addEventListener('resize', resize);
+  canvas.parentElement.addEventListener('mousemove', (e)=>{
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  });
+  canvas.parentElement.addEventListener('mouseleave', ()=>{ mouse.x = null; mouse.y = null; });
+
+  resize();
+  step();
+})();
+
+/* ============ CV download (print) ============ */
+document.getElementById('downloadCvBtn').addEventListener('click', ()=>{
+  window.print();
+});
+</script>
+</body>
+</html>
