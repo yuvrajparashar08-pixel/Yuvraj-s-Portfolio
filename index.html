@@ -324,6 +324,49 @@
 
   /* ---------- hero depth ---------- */
   #heroCanvasWrap{ will-change: transform; }
+
+  /* ---------- portrait frame (design-teardown treatment) ---------- */
+  .portrait-frame{ position:relative; }
+  .portrait-frame .corner{
+    position:absolute; width:14px; height:14px; z-index:3; pointer-events:none;
+    border-color: rgba(196,181,253,0.55);
+    transition: border-color .35s ease, width .35s ease, height .35s ease;
+  }
+  .portrait-frame .corner-tl{ top:9px; left:9px; border-top:1.5px solid; border-left:1.5px solid; }
+  .portrait-frame .corner-tr{ top:9px; right:9px; border-top:1.5px solid; border-right:1.5px solid; }
+  .portrait-frame .corner-bl{ bottom:9px; left:9px; border-bottom:1.5px solid; border-left:1.5px solid; }
+  .portrait-frame .corner-br{ bottom:9px; right:9px; border-bottom:1.5px solid; border-right:1.5px solid; }
+  .portrait-frame:hover .corner{ border-color: rgba(198,255,94,0.9); width:18px; height:18px; }
+
+  .portrait-frame .frame-tag{
+    position:absolute; top:10px; left:50%; z-index:3;
+    font-family:'JetBrains Mono', monospace;
+    font-size:.55rem; letter-spacing:.14em; text-transform:uppercase;
+    color:#07060b; background:#c6ff5e;
+    padding:3px 9px; border-radius:999px;
+    opacity:0; white-space:nowrap;
+    transform: translate(-50%, -6px);
+    transition: opacity .35s ease, transform .35s ease;
+  }
+  .portrait-frame:hover .frame-tag{ opacity:1; transform:translate(-50%,0); }
+
+  .portrait-frame .scan-line{
+    position:absolute; left:0; right:0; height:2px; top:6%;
+    background: linear-gradient(90deg, transparent, rgba(198,255,94,.85), transparent);
+    z-index:2; opacity:0; pointer-events:none;
+  }
+  .portrait-frame:hover .scan-line{ opacity:1; animation: scan 2s ease-in-out infinite; }
+  @keyframes scan{
+    0%{ top:6%; opacity:0; }
+    12%{ opacity:1; }
+    88%{ opacity:1; }
+    100%{ top:94%; opacity:0; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .portrait-frame:hover .scan-line{ animation:none; opacity:0; }
+  }
+
+  .norman-dot{ box-shadow: 0 0 0 3px rgba(139,92,246,0.12); }
 </style>
 </head>
 <body class="bg-bg antialiased">
@@ -457,8 +500,36 @@
           <span class="section-num text-sm">01</span>
           <h2 class="font-display text-2xl font-semibold reveal-up">Profile</h2>
         </div>
-        <div class="tilt-card card-glow glass reveal-up w-32 md:w-full max-w-[240px] rounded-2xl overflow-hidden" data-tilt data-tilt-max="6">
-          <img src="yuvraj-parashar.jpg" alt="Portrait of Yuvraj Parashar" class="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700 ease-out" loading="lazy" />
+        <div class="reveal-up w-32 md:w-full max-w-[240px]">
+          <div class="tilt-card card-glow portrait-frame glass rounded-2xl overflow-hidden" data-tilt data-tilt-max="6" data-tilt-glare data-tilt-max-glare="12" data-hover data-cursor-label="Human-Centered">
+            <span class="frame-tag">Fig. 01 — Profile</span>
+            <span class="corner corner-tl"></span>
+            <span class="corner corner-tr"></span>
+            <span class="corner corner-bl"></span>
+            <span class="corner corner-br"></span>
+            <div class="scan-line"></div>
+            <img src="assets/yuvraj-parashar.jpg" alt="Portrait of Yuvraj Parashar" class="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700 ease-out" loading="lazy" />
+          </div>
+
+          <!-- Norman-inspired lens: human-centered design principles, applied to HR -->
+          <div class="mt-5 space-y-3 font-mono text-[10px] uppercase tracking-wide text-dim">
+            <div class="flex items-start gap-2.5">
+              <span class="norman-dot mt-[3px] w-1.5 h-1.5 rounded-full bg-accent shrink-0"></span>
+              <span><span class="text-ink normal-case font-medium">Affordances —</span> pipelines candidates find obvious, not just possible</span>
+            </div>
+            <div class="flex items-start gap-2.5">
+              <span class="norman-dot mt-[3px] w-1.5 h-1.5 rounded-full bg-accent2 shrink-0"></span>
+              <span><span class="text-ink normal-case font-medium">Feedback loops —</span> every candidate knows exactly where they stand</span>
+            </div>
+            <div class="flex items-start gap-2.5">
+              <span class="norman-dot mt-[3px] w-1.5 h-1.5 rounded-full bg-live shrink-0"></span>
+              <span><span class="text-ink normal-case font-medium">Mental models —</span> HR systems that match how people actually think</span>
+            </div>
+          </div>
+
+          <p class="mt-5 text-[11px] leading-relaxed text-dim italic border-l border-line pl-3">
+            I borrow the lens from Don Norman's human-centered design — start with the person, then build the system around them — and apply it to talent, not just interfaces.
+          </p>
         </div>
       </div>
       <div class="md:col-span-9">
